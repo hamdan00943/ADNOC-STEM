@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Recycling Locations</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>Find Nearest Device Recycling Locations</h1>
+  </div>
+
+  <div class="container">
+    <input id="device" class="location-input" type="text" placeholder="Enter your device (e.g., Laptop, iPhone, iPad)" />
+    <br/>
+    <input id="location" class="location-input" type="text" placeholder="Enter your city or address" />
+    <br/>
+    <button class="btn" onclick="findRecyclingLocations()">Find Recycling Locations</button>
+
+    <div id="map"></div>
+  </div>
+
+  <script>
+    let map = L.map('map').setView([51.505, -0.09], 13); // Default location (London)
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Mock function for finding recycling locations
+    async function findRecyclingLocations() {
+      const device = document.getElementById('device').value;
+      const location = document.getElementById('location').value;
+
+      if (device && location) {
+        alert(`Finding recycling locations for ${device} in ${location}`);
+
+        // Simulating getting geolocation and placing markers on map
+        // You would replace this with real API calls for geolocation and recycling points
+
+        // Example of adding a mock location for demonstration
+        const mockLocation = { lat: 51.505, lng: -0.09 }; // Example coordinates (London)
+        const marker = L.marker([mockLocation.lat, mockLocation.lng]).addTo(map);
+        marker.bindPopup(`<b>Recycling Location</b><br>Drop off your ${device}`).openPopup();
+
+        map.setView([mockLocation.lat, mockLocation.lng], 13);
+      } else {
+        alert("Please enter both a device and location.");
+      }
+    }
+
+    // Optional: Use geolocation API to get user's location and update the map
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        map.setView([userLat, userLng], 13);
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  </script>
+</body>
+</html>
